@@ -20,19 +20,21 @@
         h3 {
             font-size: xx-large;
             margin-top: 60px;
-            margin-bottom: 20px;
+            margin-bottom: 40px;
         }
 
         #myMap {
             height: 100vh;
-            width: 100vw;
+            width: 70vw;
+            position: absolute;
+            left: 30vw;
         }
 
         #sidebar {
             position: absolute;
             height: 100vh;
             top: 0;
-            /* left: -40vw; */
+            left: 0vw;
             width: 30vw;
             background-color: #162025;
             box-shadow: 0px 0px 10px 0px black;
@@ -48,7 +50,7 @@
 
     <div id="myMap"></div>
     <div id="sidebar">
-        <h3 id="name">Stevenson Event Center</h3>
+        <h3 id="name">Open UVMap</h3>
         <canvas id="chart" style="height: 370px; width: 100%;"></canvas>
     </div>
 </body>
@@ -97,16 +99,16 @@
 
                     var marker = new atlas.HtmlMarker(options);
 
-                    console.log(options.position)
+                    // console.log(options.position)
 
                     var string1 = JSON.stringify(options.position[0])
                     var string2 = JSON.stringify(options.position[1])
                     var loc = JSON.stringify(locations[i])
 
-                    console.log(loc)
+                    // console.log(loc)
 
 
-                    hashMap.set(string1 + string2, JSON.stringify(locations[i]))
+                    hashMap.set(string1 + string2, locations[i])
 
 
                     console.log(i)
@@ -117,13 +119,15 @@
                     map.events.add('click', marker, (event) => {
                         // // marker.togglePopup();
                         var pos = event.target.options.position
-                        console.log(pos)
+                        // console.log(pos)
                         var string1 = JSON.stringify(pos[0])
                         var string2 = JSON.stringify(pos[1])
-                        console.log(hashMap.get(string1 + string2))
+                        var locData = hashMap.get(string1 + string2)
+                        // console.log(locData)
                         // // var data = hashMap.get(pos)
                         // console.log(hashMap)
                         // // console.log(data)
+                        buildPanel(locData)
                     });
                 }
             }
@@ -131,11 +135,14 @@
 
     });
 
-    function openPanel(loc) {
-
+    function buildPanel(loc) {
+        console.log(loc)
         var ctx = document.getElementById('chart').getContext('2d');
 
         var labels = loc.data.map(p => {return new Date(p.time).toLocaleTimeString()});
+        var data = loc.data.map(p => p.uv);
+
+        $("#name").text(loc.name)
 
         var myChart = new Chart(ctx, {
             type: 'line',
@@ -146,7 +153,7 @@
                 datasets: [{
                     backgroundColor: '#910016',
                     borderColor: '#d42a44',
-                    data: [20, 0, 10, 5, 2, 20, 30, 45]
+                    data: data
                 }]
             },
 
@@ -158,39 +165,6 @@
             }
         });
     }
-
-    test = {
-        name: "Santa Cruz Boardwalk",
-        loc: {
-            lat: 36.964144,
-            lng: -122.018427
-        },
-        data: [
-            {
-                time: Date.now(),
-                uv: 69
-            },
-            {
-                time: Date.now(),
-                uv: 80
-            },
-            {
-                time: Date.now(),
-                uv: 21
-            },
-            {
-                time: Date.now(),
-                uv: 30
-            },
-            {
-                time: Date.now(),
-                uv: 42
-            },
-        ]
-    }
-
-    openPanel(test);
-
 
 
 </script>
