@@ -12,13 +12,13 @@ app.post('/load', (req, res) => {
 })
 
 app.post('/post', (req, res) => {
-    
+    console.log(req.body)
 })
 
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 
-//--------------------------------------
+//--------------------------------------//
 
 var TEST_DATA = {
     locations: [
