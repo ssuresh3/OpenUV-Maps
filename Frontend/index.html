@@ -159,8 +159,8 @@
         console.log(loc)
         var ctx = document.getElementById('chart').getContext('2d');
 
-        var labels = loc.data.map(p => { return new Date(p.time).toLocaleTimeString() }).slice(0,20);
-        var data = loc.data.map(p => p.uv).slice(0,20);
+        var labels = loc.data.map(p => { return new Date(p.time).toLocaleTimeString() }).slice(0,20).reverse();
+        var data = loc.data.map(p => p.uv).slice(0,20).reverse();
 
         $("#name").text(loc.name)
 
