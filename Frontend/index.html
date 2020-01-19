@@ -59,7 +59,7 @@
     var map = new atlas.Map('myMap', {
         // center: [122.0308, 36.9741],
         // center: [-122.33, 47.6],
-        center: [-122.33, 36.9741],       
+        center: [-122.33, 36.9741],
         zoom: 5,
         view: "Auto",
         language: 'en-US',
@@ -70,10 +70,21 @@
         }
     });
 
+    var locations = [];
+    var hasMarkers = false;
+    var hasPanel = false;
+    var currentIndex = -1;
+
     //Wait until the map resources are ready.
     map.events.add('ready', function () {
+        getData();
+        setInterval(getData, 10000);
+    });
 
-        data = []
+    function getData() {
+        data = [];
+
+        console.log("getting data");
 
         $.ajax({
             url: "http://104.42.153.193:3000/load",
@@ -81,66 +92,75 @@
             data: data,
             contentType: 'application/json',
             success: function (result) {
-                var locations = result.locations
-                var hashMap = new Map()
+                locations = result.locations;
+                if (!hasMarkers) addMarkers();
 
-                for (var i = 0; i < locations.length; i++) {
-                    //Create a HTML marker and add it to the map.
-
-                    var options = {
-                        color: 'red',
-                        position: [locations[i].loc.lng, locations[i].loc.lat],
-                        //instead of popup we will have a page with all the necessary statistics
-                        popup: new atlas.Popup({
-                            content: `<div style="padding:10px">${locations[i].name}</div>`,
-                            pixelOffset: [0, -30]
-                        })
-                    };
-
-                    var marker = new atlas.HtmlMarker(options);
-
-                    // console.log(options.position)
-
-                    var string1 = JSON.stringify(options.position[0])
-                    var string2 = JSON.stringify(options.position[1])
-                    var loc = JSON.stringify(locations[i])
-
-                    // console.log(loc)
-
-
-                    hashMap.set(string1 + string2, locations[i])
-
-
-                    console.log(i)
-
-                    map.markers.add(marker);
-
-                    //Add a click event to toggle the popup.
-                    map.events.add('click', marker, (event) => {
-                        // // marker.togglePopup();
-                        var pos = event.target.options.position
-                        // console.log(pos)
-                        var string1 = JSON.stringify(pos[0])
-                        var string2 = JSON.stringify(pos[1])
-                        var locData = hashMap.get(string1 + string2)
-                        // console.log(locData)
-                        // // var data = hashMap.get(pos)
-                        // console.log(hashMap)
-                        // // console.log(data)
-                        buildPanel(locData)
-                    });
-                }
+                if (hasPanel) buildPanel(locations[currentIndex])
             }
         });
+    }
 
-    });
+    function addMarkers() {
+        var hashMap = new Map();
+        hasMarkers = true;
+
+        for (var i = 0; i < locations.length; i++) {
+            //Create a HTML marker and add it to the map.
+
+            var options = {
+                color: 'red',
+                position: [locations[i].loc.lng, locations[i].loc.lat],
+                //instead of popup we will have a page with all the necessary statistics
+                popup: new atlas.Popup({
+                    content: `<div style="padding:10px">${locations[i].name}</div>`,
+                    pixelOffset: [0, -30]
+                })
+            };
+
+            var marker = new atlas.HtmlMarker(options);
+
+            // console.log(options.position)
+
+            var string1 = JSON.stringify(options.position[0])
+            var string2 = JSON.stringify(options.position[1])
+            var loc = JSON.stringify(locations[i])
+
+            // console.log(loc)
+
+
+            hashMap.set(string1 + string2, i)
+
+
+            console.log(i)
+
+            map.markers.add(marker);
+
+            //Add a click event to toggle the popup.
+            map.events.add('click', marker, (event) => {
+                // // marker.togglePopup();
+                var pos = event.target.options.position
+                // console.log(pos)
+                var string1 = JSON.stringify(pos[0])
+                var string2 = JSON.stringify(pos[1])
+                var locIndex = hashMap.get(string1 + string2)
+                // console.log(locData)
+                // // var data = hashMap.get(pos)
+                // console.log(hashMap)
+                // // console.log(data)
+                currentIndex = locIndex;
+                buildPanel(locations[locIndex])
+            });
+        }
+    }
+
 
     function buildPanel(loc) {
+        hasPanel = true;
         console.log(loc)
         var ctx = document.getElementById('chart').getContext('2d');
 
-        var labels = loc.data.map(p => {return new Date(p.time).toLocaleTimeString()});
-        var data = loc.data.map(p => p.uv);
+        var labels = loc.data.map(p => { return new Date(p.time).toLocaleTimeString() }).slice(0,20);
+        var data = loc.data.map(p => p.uv).slice(0,20);
 
         $("#name").text(loc.name)
 
