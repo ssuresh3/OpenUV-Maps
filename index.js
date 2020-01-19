@@ -13,6 +13,11 @@ app.post('/load', (req, res) => {
 
 app.post('/post', (req, res) => {
     console.log(req.body)
+
+    if(req.body.uv != null)
+        TEST_DATA.locations[0].unshift(req.body)
+    
+    res.send({success:true})
 })
 
 
@@ -29,26 +34,6 @@ var TEST_DATA = {
                 lng: -122.052262
             },
             data: [
-                {
-                    time: Date.now(),
-                    uv: 69
-                },
-                {
-                    time: Date.now(),
-                    uv: 80
-                },
-                {
-                    time: Date.now(),
-                    uv: 21
-                },
-                {
-                    time: Date.now(),
-                    uv: 30
-                },
-                {
-                    time: Date.now(),
-                    uv: 42
-                },
             ]
         },
         {
