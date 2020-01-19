@@ -15,7 +15,7 @@ app.post('/post', (req, res) => {
     console.log(req.body)
 
     if(req.body.uv != null)
-        TEST_DATA.locations[0].data.append(req.body)
+        TEST_DATA.locations[0].data.push(req.body)
     
     res.send({success:true})
 })
