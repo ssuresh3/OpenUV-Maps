@@ -181,5 +181,92 @@ var TEST_DATA = {
                 },
             ]
         },
+        {
+            name: "Boise",
+            loc: {
+                lat: 43.609370, 
+                lng: -116.206150
+            },
+            data: [
+                {
+                    time: Date.now(),
+                    uv: 69
+                },
+                {
+                    time: Date.now(),
+                    uv: 80
+                },
+                {
+                    time: Date.now(),
+                    uv: 21
+                },
+                {
+                    time: Date.now(),
+                    uv: 30
+                },
+                {
+                    time: Date.now(),
+                    uv: 42
+                },
+            ]
+        },
+        {
+            name: "Salt Lake City",
+            loc: {
+                lat: 40.718811,
+                lng: -111.908074
+            },
+            data: [
+                {
+                    time: Date.now(),
+                    uv: 69
+                },
+                {
+                    time: Date.now(),
+                    uv: 80
+                },
+                {
+                    time: Date.now(),
+                    uv: 21
+                },
+                {
+                    time: Date.now(),
+                    uv: 30
+                },
+                {
+                    time: Date.now(),
+                    uv: 42
+                },
+            ]
+        },
+        {
+            name: "Phoenix",
+            loc: {
+                lat: 33.501233, 
+                lng: -112.124357
+            },
+            data: [
+                {
+                    time: Date.now(),
+                    uv: 69
+                },
+                {
+                    time: Date.now(),
+                    uv: 80
+                },
+                {
+                    time: Date.now(),
+                    uv: 21
+                },
+                {
+                    time: Date.now(),
+                    uv: 30
+                },
+                {
+                    time: Date.now(),
+                    uv: 42
+                },
+            ]
+        },
     ]
 }
