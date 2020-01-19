@@ -19,8 +19,8 @@
 
         h3 {
             font-size: xx-large;
-            margin-top: 60px;
-            margin-bottom: 40px;
+            margin-top: 30px;
+            margin-bottom: 20px;
         }
 
         #myMap {
@@ -42,6 +42,7 @@
             padding-right: 50px;
             animation-duration: 1s;
         }
+
     </style>
 
 </head>
@@ -51,7 +52,51 @@
     <div id="myMap"></div>
     <div id="sidebar">
         <h3 id="name">Open UVMap</h3>
-        <canvas id="chart" style="height: 370px; width: 100%;"></canvas>
+        <canvas id="chart" style="height: 350px; width: 100%;"></canvas>
+        <hr/>
+        <table class="wikitable" style="padding-top:30px">
+            <tbody>
+                <tr>
+                    <th>UV index</th>
+                    <th>Risk of harm from unprotected Sun exposure, for the average adult</th>
+                    <th>Recommended protection
+                    </th>
+                </tr>
+                <tr>
+                    <td bgcolor="#3EA72D" align="center">0 to 2</td>
+                    <td align="center">"Low"</td>
+                    <td>A UV index reading of 0 to 2 means low danger from the Sun's UV rays for the average person.
+                    </td>
+                </tr>
+                <tr>
+                    <td bgcolor="#dbbe00" align="center">3 to 5</td>
+                    <td align="center">"Moderate"</td>
+                    <td>A UV index reading of 3 to 5 means moderate risk of harm from unprotected Sun exposure.
+                    </td>
+                </tr>
+                <tr>
+                    <td bgcolor="#F18B00" align="center">6 to 7</td>
+                    <td align="center">"High"</td>
+                    <td>A UV index reading of 6 to 7 means high risk of harm from unprotected Sun exposure. Protection
+                        against skin and eye damage is needed.
+                    </td>
+                </tr>
+                <tr>
+                    <td bgcolor="#E53210" align="center"><span class="nowrap">8 to 10</span></td>
+                    <td align="center">"Very high"</td>
+                    <td>A UV index reading of 8 to 10 means very high risk of harm from unprotected Sun exposure. Take
+                        extra precautions because unprotected skin and eyes will be damaged and can burn quickly.
+                    </td>
+                </tr>
+                <tr>
+                    <td bgcolor="#B567A4" align="center">11+</td>
+                    <td align="center">"Extreme"</td>
+                    <td>A UV index reading of 11 or more means extreme risk of harm from unprotected Sun exposure. Take
+                        all precautions because unprotected skin and eyes can burn in minutes.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </body>
 
@@ -159,8 +204,8 @@
         console.log(loc)
         var ctx = document.getElementById('chart').getContext('2d');
 
-        var labels = loc.data.map(p => { return new Date(p.time).toLocaleTimeString() }).slice(0,20).reverse();
-        var data = loc.data.map(p => p.uv).slice(0,20).reverse();
+        var labels = loc.data.map(p => { return new Date(p.time).toLocaleTimeString() }).slice(0, 20).reverse();
+        var data = loc.data.map(p => p.uv).slice(0, 20).reverse();
 
         $("#name").text(loc.name)
 
@@ -181,6 +226,14 @@
             options: {
                 legend: {
                     display: false
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            suggestedMin: 0,
+                            suggestedMax: 15
+                        }
+                    }]
                 }
             }
         });
