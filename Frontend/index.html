@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html>
 
@@ -5,6 +7,7 @@
 
     <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css">
     <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
     <style>
         html,
@@ -36,11 +39,28 @@
     //Wait until the map resources are ready.
     map.events.add('ready', function () {
 
+        data = []
+        result = []
+
+        $.ajax({
+            url: "http://104.42.153.193:3000/load",
+            type: "POST",
+            data: data,
+            contentType: 'application/json',
+            success: function (result) {
+                console.log(result);
+            }
+        });
+
+        // console.log(result.loactions)
+
         //Create a HTML marker and add it to the map.
         var marker = new atlas.HtmlMarker({
             color: 'DodgerBlue',
             text: '10',
             position: [0, 0],
+
+            //instead of popup we will have a page with all the necessary statistics
             popup: new atlas.Popup({
                 content: '<div style="padding:10px">Hello World</div>',
                 pixelOffset: [0, -30]
