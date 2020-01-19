@@ -46,29 +46,50 @@
             contentType: 'application/json',
             success: function (result) {
                 var locations = result.locations
+                var hashMap = new Map()
 
                 for (var i = 0; i < locations.length; i++) {
                     //Create a HTML marker and add it to the map.
-                    // console.log(locations[i].loc.lat)
-                    // console.log(locations[i].loc.lng)
 
-                    var marker = new atlas.HtmlMarker({
+                    var options = {
                         color: 'red',
-                        text: '10',
                         position: [locations[i].loc.lng, locations[i].loc.lat],
-
                         //instead of popup we will have a page with all the necessary statistics
                         popup: new atlas.Popup({
-                            content: '<div style="padding:10px">Hello World</div>',
+                            content: `<div style="padding:10px">${locations[i].name}</div>`,
                             pixelOffset: [0, -30]
                         })
-                    });
+                    };
+
+                    var marker = new atlas.HtmlMarker(options);
+
+                    console.log(options.position)
+
+                    var string1 = JSON.stringify(options.position[0])
+                    var string2 = JSON.stringify(options.position[1])
+                    var loc = JSON.stringify(locations[i])
+
+                    console.log(loc)
+
+
+                    hashMap.set(string1 + string2, JSON.stringify(locations[i]))
+
+
+                    console.log(i)
 
                     map.markers.add(marker);
 
                     //Add a click event to toggle the popup.
-                    map.events.add('click', marker, () => {
-                        marker.togglePopup();
+                    map.events.add('click', marker, (event) => {
+                        // // marker.togglePopup();
+                        var pos = event.target.options.position
+                        console.log(pos)
+                        var string1 = JSON.stringify(pos[0])
+                        var string2 = JSON.stringify(pos[1])
+                        console.log(hashMap.get(string1 + string2))
+                        // // var data = hashMap.get(pos)
+                        // console.log(hashMap)
+                        // // console.log(data)
                     });
                 }
             }
