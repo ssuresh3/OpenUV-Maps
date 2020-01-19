@@ -7,8 +7,12 @@ app.use(express.static('Frontend'));
 
 app.get('/', (req, res) => res.send('Hello World!'))
 
-app.post('/update', (req, res) => {
+app.post('/load', (req, res) => {
     res.send(TEST_DATA);
+})
+
+app.post('/post', (req, res) => {
+    
 })
 
 
