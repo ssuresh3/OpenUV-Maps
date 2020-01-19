@@ -6,18 +6,6 @@
     <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css">
     <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
 
-    <script type="text/javascript">
-        var map = new atlas.Map('myMap', {
-            center: [37.0, -122.0],
-            zoom: 12,
-            language: 'en-US',
-            authOptions: {
-                authType: 'subscriptionKey',
-                subscriptionKey: 'c2X13dU6Bqf3LZM-hYKPubrU1wEWXH62Yrt634NXkWc'
-            }
-        });
-    </script>
-
     <style>
         html,
         body {
@@ -35,5 +23,17 @@
 <body>
     <div id="myMap"></div>
 </body>
+
+<script type="text/javascript">
+    var map = new atlas.Map('myMap', {
+        center: [37.0, -122.0],
+        zoom: 12,
+        language: 'en-US',
+        authOptions: {
+            authType: 'subscriptionKey',
+            subscriptionKey: 'c2X13dU6Bqf3LZM-hYKPubrU1wEWXH62Yrt634NXkWc'
+        }
+    });
+</script>
 
 </html>
